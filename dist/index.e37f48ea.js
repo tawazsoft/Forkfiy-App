@@ -558,7 +558,8 @@ function hmrAccept(bundle, id) {
 
 },{}],"aenu9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _esRegexpFlagsJs = require("core-js/modules/es.regexp.flags.js");
+var _esRegexpFlagsJs = require("core-js/modules/es.regexp.flags.js"); //window.addEventListener('hashchange',showRecipe);
+ //window.addEventListener('load',showRecipe);
 var _webImmediateJs = require("core-js/modules/web.immediate.js");
 var _iconsSvg = require("../img/icons.svg");
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
@@ -588,24 +589,10 @@ const renderSpinner = function(parentEl) {
 const showRecipe = async function() {
     //loading recipe
     try {
-        const id = window.location;
+        const id = window.location.hash.slice(1);
+        console.log(id);
+        if (!id) return;
         renderSpinner(recipeContainer);
-        const res = await fetch(//'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc8f7'
-        "https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886");
-        const data = await res.json();
-        if (!res.ok) throw new Error(`${data.message}${res.status})`);
-        let { recipe  } = data.data;
-        recipe = {
-            id: recipe.id,
-            title: recipe.title,
-            publisher: recipe.publisher,
-            sourceUrl: recipe.source_Url,
-            image: recipe.image_url,
-            servings: recipe.servings,
-            cookingTime: recipe.cooking_time,
-            ingredients: recipe.ingredients
-        };
-        console.log(recipe);
         // rendering recipe
         const markup = `
       <figure class="recipe__fig">
@@ -706,7 +693,10 @@ const showRecipe = async function() {
         alert(err);
     }
 };
-showRecipe();
+[
+    "hashchange",
+    "load"
+].forEach((ev)=>window.addEventListener(ev, showRecipe));
 
 },{"../img/icons.svg":"cMpiy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","core-js/modules/es.regexp.flags.js":"gSXXb","core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ"}],"cMpiy":[function(require,module,exports) {
 module.exports = require("a5a4ae19839f3f1").getBundleURL("hWUTQ") + "icons.21bad73c.svg" + "?" + Date.now();
